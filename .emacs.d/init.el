@@ -1,6 +1,5 @@
 ; Time-stamp: <2019-03-23 08:43:14 josh>
 
-
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
@@ -23,6 +22,9 @@
 
 (setq custom-file (expand-file-name "custom.el" user-directory))
 (load custom-file)
+
+;; (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+;; (if (or window-system (daemonp)) (load-theme 'misterioso))
 
 ;; Manual custom settings
 (display-time)

@@ -21,6 +21,10 @@
  '(comint-move-point-for-output t)
  '(comint-scroll-to-bottom-on-input t)
  '(current-language-environment "UTF-8")
+ '(custom-enabled-themes (quote (misterioso)))
+ '(custom-safe-themes
+   (quote
+    ("a1e99cb36d6235abbe426a0a96fc26c006306f6b9d2a64c2435363350a987b4c" default)))
  '(default-frame-alist
     (quote
      ((background-color . "Black")
@@ -32,7 +36,7 @@
       (horizontal-scroll-bars))))
  '(default-input-method "rfc1345")
  '(delete-selection-mode t nil (delsel))
- '(diary-file "~/.emacs.d/diary" t)
+ '(diary-file "~/.emacs.d/diary")
  '(diff-mode-hook (quote (view-mode)))
  '(dired-copy-preserve-time t)
  '(dired-keep-marker-copy 67)
@@ -142,6 +146,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "Black" :foreground "White" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "unknown" :family "Monospace"))))
+ '(fringe ((t (:background "gray10"))))
  '(scroll-bar ((t (:background "grey" :foreground "#000000"))))
  '(show-paren-match ((t (:background "grey20"))))
  '(trailing-whitespace ((((class color) (background dark)) (:background "orange")))))

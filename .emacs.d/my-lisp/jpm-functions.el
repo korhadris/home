@@ -1,33 +1,16 @@
-;;; Time-stamp: <2016-01-30 20:49:39 josh>
+;;; Time-stamp: <2018-04-27 14:30:39 jpm>
 
-;;; Global Functions
-(defvar jpm-new-emacs (or (> emacs-major-version 24)
-                          (and (= emacs-major-version 25)
-                               (>= emacs-minor-version 3)))
-  "Is the current version of Emacs >= 24.3")
+(require 'jpm-base)
 
 ;; Try to use cl-lib, but fall back to cl and set some function aliases
 (if jpm-new-emacs
     (require 'cl-lib)
   (require 'cl)
   (defalias 'cl-loop 'loop)
+  (defalias 'cl-labels 'labels)
   (defalias 'cl-remove-if-not 'remove-if-not))
 
-(defun feature-ready (feature)
-  "Will load feature if it is not loaded.
-Returns nil if feature cannot be loaded."
-  (require feature nil 'NOERROR))
-
-(defcustom highlight-user-list '("josh" "jpm")
-  "List of names that will be highlighted by `my-highlighting'."
-  :group 'jpm
-  :type '(repeat string))
-
-(defcustom highlight-message-list '("TODO" "NOTE" "DEBUG" "UPDATE" "WARNING")
-  "List of note messages that will be highlighted by `my-highlighting'."
-  :group 'jpm
-  :type '(repeat string))
-
+;;;###autoload
 (defun my-highlighting ()
   "Highlight dates, users (stored in `highlight-user-list'),
 and some other messages (stored in `highlight-message-list')."
@@ -60,15 +43,7 @@ and some other messages (stored in `highlight-message-list')."
   ;; (highlight-regexp "[^\s\n]\\(  +\\)" 'fringe) ; Highlights the first char too :(
   (font-lock-add-keywords nil '(("[^\s\n]\\(  +\\)" 1 'fringe))))
 
-(defun make-backup-file-name (file-name)
-  "Override built-in `make-backup-file-name' to store the path.
-The path is separated kinda annoying | characters that have to be escaped, but the idea is that these characters are unlikely to be in a filename."
-  (require 'dired)
-  (if (file-exists-p (expand-file-name "~/backups"))
-      (concat (expand-file-name "~/backups/")
-              (dired-replace-in-string "/" "|" file-name))
-    (concat file-name "~")))
-
+;;;###autoload
 (defun smart-beginning-of-line ()
   "Move point between beginning of indentation and beginning of line."
   (interactive)
@@ -87,6 +62,7 @@ The path is separated kinda annoying | characters that have to be escaped, but t
   (setq isearch-string isearch-initial-string)
   (isearch-search-and-update))
 
+;;;###autoload
 (defun isearch-forward-at-point (&optional regexp-p no-recursive-edit)
   "Interactive search forward for the word located around the point."
   (interactive "P\np")
@@ -99,6 +75,7 @@ The path is separated kinda annoying | characters that have to be escaped, but t
         (add-hook 'isearch-mode-hook 'isearch-set-initial-string)
         (isearch-forward regexp-p no-recursive-edit)))))
 
+;;;###autoload
 (defun disable-word-wrap ()
   "Turns off word-wrapping"
   (interactive)
@@ -106,21 +83,13 @@ The path is separated kinda annoying | characters that have to be escaped, but t
   (setq word-wrap nil)
   (toggle-truncate-lines 1))
 
+;;;###autoload
 (defun enable-word-wrap ()
   "Turns on word-wrapping"
   (interactive)
   (visual-line-mode 1))
 
-(defcustom default-indentation 2
-  "Default indentation used in `highlight-indentation'."
-  :group 'jpm
-  :type 'integer)
-
-(defcustom default-python-indentation 4
-  "Default Python indentation used int `highlight-indentation'."
-  :group 'jpm
-  :type 'integer)
-
+;;;###autoload
 (defun highlight-indendation ()
   "Highlights indentation levels."
   (interactive)
@@ -149,11 +118,13 @@ The path is separated kinda annoying | characters that have to be escaped, but t
         ((eq major-mode 'emacs-lisp-mode) ";;")
         ((eq major-mode 'lisp-interaction-mode) ";;")
         ((eq major-mode 'makefile-gmake-mode) "#")
+        ((eq major-mode 'nxml-mode) "<!--")
         ("#")))
 
 (defun get-comment-string-close ()
   "Get the closing comment string for the current mode."
   (cond ((eq major-mode 'c-mode) " */")
+        ((eq major-mode 'nxml-mode) " -->")
         ("")))
 
 (defun comment-start ()
@@ -162,6 +133,7 @@ The path is separated kinda annoying | characters that have to be escaped, but t
   (insert (get-comment-string-open) " " (upcase user-login-name) " "
           (format-time-string "%Y%m%d") " "))
 
+;;;###autoload
 (defun insert-comment ()
   "Insert a comment line with \"USERNAME YYYYMMDD \""
   (interactive)
@@ -171,14 +143,17 @@ The path is separated kinda annoying | characters that have to be escaped, but t
   (indent-for-tab-command)
   (comment-start))
 
+;;;###autoload
 (defun insert-comment-todo ()
-  "Insert a comment line with \"USERNAME YYYYMMDD TODO: \""
+  "Insert a comment line with \"USERNAME YYYYMMDD TODO(user): \""
   (interactive)
   (insert-comment)
-  (insert "TODO: "))
+  (insert "TODO(" user-login-name "): "))
 
-;; These buffers will not be kiled when performing a `close-all-other-buffers'"
+;; These buffers will not be killed when performing a `close-all-other-buffers'"
 ;; (setq bffers-not-to-kill-list '("*scratch*" "*Messages*" "todo.org"))
+
+;;;###autoload
 (defun close-all-other-buffers (kill-non-file-buffers)
   "Close all other file buffers (optionally kill all other buffers)
 Buffers that are always omitted are: todo.org, *scratch*, and *Messages*"
@@ -202,17 +177,19 @@ Buffers that are always omitted are: todo.org, *scratch*, and *Messages*"
   "Truncate N characters from the end of STRING."
   (substring string 0 (max 0 (- (length string) n))))
 
+;;;###autoload
 (defun my-reverse-yank-pop ()
   "Traverse the kill-buffer in reverse direction.
 Save as `yank-pop' with an argument of -1"
   (interactive)
   (yank-pop -1))
 
+;;;###autoload
 (defun find-file-upwards (file-to-find)
   "Recursively searches each parent directory starting from the
 `default-directory' looking for a file with the name
 file-to-find. Returns the path to the file or nill if not found."
-  (labels
+  (cl-labels
       ((find-file-r (path)
                     (let* ((parent (file-name-directory path))
                            (possible-file (concat parent file-to-find)))
@@ -222,6 +199,7 @@ file-to-find. Returns the path to the file or nill if not found."
                        (t (fild-file-r (directory-file-name parent))))))) ; continue recursion
     (find-file-r default-directory)))
 
+;;;###autoload
 (defun my-find-tag ()
   "Checks to see if current `tags-file-name' is set for the current file/path.
 If the TAGS file should be changed, it will be loaded before `find-tag' is called."
@@ -233,10 +211,41 @@ If the TAGS file should be changed, it will be loaded before `find-tag' is calle
       (message "Done with `visit-tags-table'")))
   (call-interactively 'find-tag))
 
-;;; Didn't do my-numbered-yank
+(defvar my-numbering-counter 1
+  "Used in `my-numbered-yank'")
 
-;;; Didn't do my-find-files
+;;;###autoload
+(defun my-numbered-yank (prefix)
+  "Paste from current kill-buffer and insert `my-numbering-counter'.
+Prefix arg will set teh couter to its value."
+  (interactive "P")
+  (yank)
+  (when prefix
+    (setq my-numbering-counter (prefix-numeric-value prefix)))
+  (insert (number-to-string my-numbering-counter))
+  (setq my-numbering-counter (1+ my-numbering-counter)))
 
+;; Didn't do rectangle-number-lines, I assume my main environments have it now
+
+;;;###autoload
+(defun my-find-files (directory)
+  "Create a list of files in a given directory and sub-directories."
+  (interactive "DDirectory name: ")
+  (let (el-files-list
+        (current-directory-list (directory-files-and-attributes directory t))
+        (filename "")
+        (is-dir nil))
+    (while current-directory-list
+      (setq filename (car (car current-directory-list)))
+      (setq is-dir (car (cdr (car current-directory-list))))
+      (if is-dir
+          (unless (equal "." (substring filename -1))
+            (setq el-files-list (append (my-find-files filename) el-files-list)))
+        (add-to-list 'el-files-list filename))
+      (setq current-directory-list (cdr current-directory-list)))
+    el-files-list))
+
+;;;###autoload
 (defun my-buffer-open (buf-name)
   (let ((buf-found nil))
     (loop for buffer in (buffer-list) do
@@ -244,6 +253,7 @@ If the TAGS file should be changed, it will be loaded before `find-tag' is calle
               (setq buf-found t)))
     buf-found))
 
+;;;###autoload
 (defun my-grep-find-at-point ()
   "Run `grep-find' on the current word at `point'."
   (interactive)
@@ -252,6 +262,7 @@ If the TAGS file should be changed, it will be loaded before `find-tag' is calle
     (add-to-list 'grep-find-history command)
     (grep-find command)))
 
+;;;###autoload
 (defun my-run-command ()
   "Try to run an executable that has the same name as the current
 buffer, without an extension"
@@ -267,6 +278,7 @@ buffer, without an extension"
                      new-buffer-name)
       (display-buffer new-buffer-name))))
 
+;;;###autoload
 (defun my-just-one-space-all ()
   "Replaces multiple spaces within a line with a single space.
 e.g. 'This line     has extra space.' -> 'This line ahs extra space.'"
