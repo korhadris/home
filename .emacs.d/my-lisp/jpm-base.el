@@ -1,4 +1,4 @@
-;;; Time-stamp: <2018-05-01 09:31:14 jpm>
+;;; Time-stamp: <2018-05-03 11:54:38 jpm>
 
 ;; File: jpm-base.el
 ;; Author: JPM
@@ -8,8 +8,8 @@
 ;; later.
 
 ;;; Global functions
-(defvar jpm-new-emacs (not (version< emacs-version "25.3"))
-  "Is the current version of Emacs >= 25.3")
+(defvar jpm-new-emacs (not (version< emacs-version "25.1"))
+  "Is the current version of Emacs >= 25.1")
 
 (defun feature-ready (feature)
   "Will load feature if it is not laoded.
@@ -19,7 +19,7 @@ Returns nil if feature cannot be loaded."
 (defun make-backup-file-name (file-name)
   "Override built-in `make-backup-file-name' to store the path as part of the
 file name.
-The path is separated by kinda annoying | characters that have to be escaped,
+The path is separated by kinda annoying '|' characters that have to be escaped,
 but the idea is that these characters are unlikely to be in a file name."
   (require 'dired)
   (if (file-exists-p (expand-file-name "~/backups"))
@@ -75,26 +75,6 @@ command."
 ;;; Python specific settings
 (setq py-python-command "ipython")
 (setq python-python-command "ipython")
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;; PS print settings
-(defvar pdf-viewer ""
-  "PDF Viewer used by `my-print-buffer-with-faces'.
-Defaults to \"\" until a PDF viewer has been found.")
-
-;; I don't like the default colors that are printed, so I changed them.
-;; This could be done in customized variables, but I like them in this file.
-(ps-extend-face '(diary "Blue2") 'MERGE)
-(ps-extend-face '(font-lock-builtin-face "SteelBlue") 'MERGE)
-(ps-extend-face '(font-lock-comment-face "chocolate4") 'MERGE)
-(ps-extend-face '(font-lock-constant-face "SeaGreen") 'MERGE)
-(ps-extend-face '(font-lock-doc-face "DarkMagenta") 'MERGE)
-(ps-extend-face '(font-lock-function-name-face "DeepSkyBlue") 'MERGE)
-(ps-extend-face '(font-lock-keyword-face "Blue2") 'MERGE)
-(ps-extend-face '(font-lock-preprocessor-face "SteelBlue") 'MERGE)
-(ps-extend-face '(font-lock-string-face "DarkMagenta") 'MERGE)
-(ps-extend-face '(font-lock-type-face "ForestGreen") 'MERGE)
-(ps-extend-face '(font-lock-variable-name-face "DarkGoldenrod") 'MERGE)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Elisp specific settings

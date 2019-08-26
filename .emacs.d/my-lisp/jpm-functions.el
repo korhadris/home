@@ -1,4 +1,4 @@
-;;; Time-stamp: <2018-04-27 14:30:39 jpm>
+;;; Time-stamp: <2018-07-23 17:20:11 jpm>
 
 (require 'jpm-base)
 
@@ -196,7 +196,7 @@ file-to-find. Returns the path to the file or nill if not found."
                       (cond
                        ((file-exists-p possible-file) possible-file)
                        ((or (null parent) (equal parent (directory-file-name parent))) nil) ; not found
-                       (t (fild-file-r (directory-file-name parent))))))) ; continue recursion
+                       (t (find-file-r (directory-file-name parent))))))) ; continue recursion
     (find-file-r default-directory)))
 
 ;;;###autoload
@@ -204,12 +204,14 @@ file-to-find. Returns the path to the file or nill if not found."
   "Checks to see if current `tags-file-name' is set for the current file/path.
 If the TAGS file should be changed, it will be loaded before `find-tag' is called."
   (interactive)
-  (let ((new-tags-file (find-file-upwards "TAGS")))
-    (unless (equal new-tags-file tags-file-name)
-      (message "Loading new TAGS file: %s" new-tags-file)
-      (visit-tags-table new-tags-file)
-      (message "Done with `visit-tags-table'")))
-  (call-interactively 'find-tag))
+  (if (feature-ready 'projectile)
+      (call-interactively 'projectile-find-tag)
+    (let ((new-tags-file (find-file-upwards "TAGS")))
+      (unless (equal new-tags-file tags-file-name)
+        (message "Loading new TAGS file: %s" new-tags-file)
+        (visit-tags-table new-tags-file)
+        (message "Done with `visit-tags-table'")))
+    (call-interactively 'find-tag)))
 
 (defvar my-numbering-counter 1
   "Used in `my-numbered-yank'")
@@ -268,13 +270,14 @@ Prefix arg will set teh couter to its value."
 buffer, without an extension"
   (interactive)
   (let* ((command (file-name-sans-extension buffer-file-name))
-         (new-buffer-name (concat "*" (file-name-nondirectory- command) " output *"))
+         (new-buffer-name (concat "*" (file-name-nondirectory command) " output *"))
          (max-mini-window-height 0))
     (if (not (file-exists-p command))
         (message (concat "Cannot find executable: " command))
       (shell-command (concat "date -u +'**** Started at:    %F %T.%N ****%n';"
-                             "time " command
-                             "; date -u +'%n**** Completed at:  %F %T.%N ****'")
+                             "/usr/bin/time -v " command
+                             "; echo exit status: $?"
+                             ";date -u +'%n**** Completed at:  %F %T.%N ****'")
                      new-buffer-name)
       (display-buffer new-buffer-name))))
 

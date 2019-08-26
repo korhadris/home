@@ -1,4 +1,4 @@
-;;; Time-stamp: <2018-04-27 11:51:57 jpm>
+;;; Time-stamp: <2018-05-24 18:04:41 jpm>
 
 ;; File: jpm-cxx.el
 ;; Author: JPM
@@ -55,7 +55,7 @@
     '(0 font-lock-keyword-face prepend))
    (list
     "\\([@\\\\]\\(attention\\|warning\\|todo\\|bug\\)\\)\\b"
-    '(o font-lock-warning-face prepend))
+    '(0 font-lock-warning-face prepend))
    (list
     (concat "\\([@\\\\]\\(param\\(?:\\s-*\\[\\(?:in\\|out\\|in,out\\)\\]\\)?"
             "\\|a\\|namespace\\|relates\\(also\\)?"
@@ -91,7 +91,7 @@
           " DEBUG: \" << __FILE__ << ':' << __LINE__\n << \" ")
   (c-indent-line-or-region)
   (save-excursion
-    (insert "\" << std::endl;")))
+    (insert "\" << '\\n';")))
 
 ;;;###autoload
 (defun my-insert-cpp-debug-variable (variable-name)
@@ -106,7 +106,8 @@
             variable-name " = \" << " variable-name)
     (c-indent-line-or-region)
     (newline-and-indent)
-    (insert "<< '\\n';")))
+    (insert "<< '\\n';")
+    (c-indent-line-or-region)))
     
 ;;;###autoload
 (defun my-insert-cpp-debug-variable-add (variable-name)
@@ -211,7 +212,7 @@ namespace foo {
     (message guard-name)
     (save-excursion
       (goto-char (point-min))
-      (insert "#ifdef " guard-name "\n#define " guard-name "\n\n")
+      (insert "#ifndef " guard-name "\n#define " guard-name "\n\n")
       (goto-char (point-max))
       (insert "\n#endif  " (get-comment-string-open) " " guard-name
               (get-comment-string-close) "\n"))))
@@ -342,7 +343,7 @@ Inspired by `eassist-switch-h-cpp'"
     (setq my-function-name-timer
           (run-with-idle-timer 2 'REPEAT 'my-get-function-name-short))))
 
-;;;##autoload
+;;;###autoload
 (defun my-common-c ()
   (when (buffer-file-name)
     (if (not (string-match "badger" (buffer-file-name)))
@@ -356,7 +357,7 @@ Inspired by `eassist-switch-h-cpp'"
   (local-set-key (kbd "C-c i d") 'my-insert-cpp-debug-variable)
   (local-set-key (kbd "C-c i D") 'my-insert-cpp-debug-variable-add)
   (local-set-key (kbd "C-c i e") 'my-insert-cpp-enum)
-  (local-set-key (kbd "C-c i g") 'my-insert-cpp-include-guard)
+  (local-set-key (kbd "C-c i g") 'my-insert-c-include-guard)
   (local-set-key (kbd "C-c i i") 'my-insert-cpp-include)
   (local-set-key (kbd "C-c i m") 'my-insert-cpp-main)
   (local-set-key (kbd "C-c i n") 'my-insert-cpp-namespace)
@@ -374,6 +375,8 @@ Inspired by `eassist-switch-h-cpp'"
   (unless (eq major-mode 'protobuf-mode)
     (imenu-add-menubar-index))
   (font-lock-add-keywords nil doxygen-keywords)
+  (if (feature-ready 'projectile)
+      (projectile-mode))
   (when buffer-file-name
     (unless (or (file-exists-p "Makefile")
                 (file-exists-p "makefile"))

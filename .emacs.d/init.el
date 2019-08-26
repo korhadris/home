@@ -137,3 +137,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (message "Done reading init.el")
+
+;;  LocalWords:  el defvar eq init s's concat defun setq fset expt hg
+;;  LocalWords:  timestamps autoload ido NOERROR dired kbd RET goto
+;;  LocalWords:  isearch XF ispell ediff linewise hexl SPC atbl pyd
+;;  LocalWords:  orgtbl tbl csh makefile openoffice xmidas tmp prm
+;;  LocalWords:  proto protobuf pid gdb txt alist

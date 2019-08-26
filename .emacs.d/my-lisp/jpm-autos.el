@@ -3,8 +3,8 @@
 ;;; Code:
 
 
-;;;### (autoloads nil "jpm-cxx" "jpm-cxx.el" (23267 29005 892103
-;;;;;;  121000))
+;;;### (autoloads nil "jpm-cxx" "jpm-cxx.el" (23275 16172 414755
+;;;;;;  435000))
 ;;; Generated autoloads from jpm-cxx.el
 
 (autoload 'my-insert-debug-statement "jpm-cxx" "\
@@ -81,6 +81,11 @@ Get the name of the current function. Includes arguments and return type
 Toggles idle-timer call to `my-get-function-name-short'
 
 \(fn)" t nil)
+
+(autoload 'my-common-c "jpm-cxx" "\
+
+
+\(fn)" nil nil)
 
 (autoload 'c-cleanup "jpm-cxx" "\
 
