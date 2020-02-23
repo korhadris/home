@@ -1,0 +1,9 @@
+[user]
+	name = korhadris
+	email = korhadris@users.noreply.github.com
+[alias]
+	st = status -s
+	par = log -1
+	amend = commit --amend --reset-author
+[pull]
+	ff = only

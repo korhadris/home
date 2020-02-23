@@ -1,0 +1,20 @@
+#! /bin/bash
+
+install_items=(
+  .bashrc
+  .emacs.d
+  .gitconfig
+  .hgrc
+  .profile
+  .screenrc
+  .Xmodmap
+)
+
+scriptpath=$(dirname $(readlink -e ${BASH_SOURCE[0]}))
+
+for item in ${install_items[@]}; do
+  # Save real (non-symlink) files with .orig appended
+  [[ -e $HOME/$item ]] && ([[ -L $HOME/$item ]] || \mv -v $HOME/$item $HOME/$item.orig)
+  # Create symlinks for all items to be installed
+  \ln -fsvr $scriptpath/$item $HOME
+done

@@ -1,0 +1,29 @@
+#! /bin/bash
+
+packages=(
+  curl
+  emacs
+  git
+  htop
+  imagemagick
+  manpages
+  screen
+  wget
+)
+
+if which apt >& /dev/null; then
+  echo "Using apt"
+  sudo apt update
+  pkgs_to_install=""
+  for pkg in ${packages[@]}; do
+    if apt show $pkg >& /dev/null; then
+      pkgs_to_install="$pkgs_to_install $pkg"
+    else
+      echo "Unable to find $pkg, skipping..."
+    fi
+  done
+  echo "Installing $pkgs_to_install"
+  sudo apt install -y $pkgs_to_install
+elif which yum >& /dev/null; then
+  echo "Using yum"
+fi

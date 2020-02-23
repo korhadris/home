@@ -1,146 +1,43 @@
-; Time-stamp: <2015-02-05 20:03:04 josh>
+; Time-stamp: <2019-03-23 08:43:14 josh>
 
-;; Custom vars from emacs configure
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(TeX-PDF-mode t)
- '(appt-display-duration 55)
- '(appt-display-interval 1)
- '(archive-superior-buffer nil t)
- '(auto-compression-mode t nil (jka-compr))
- '(bar-cursor 2)
- '(calendar-mark-diary-entries-flag t)
- '(case-fold-search t)
- '(column-number-mode t)
- '(comint-completion-addsuffix t)
- '(comint-completion-autolist t)
- '(comint-input-ignoredups t)
- '(comint-move-point-for-output t)
- '(comint-scroll-to-bottom-on-input t)
- '(current-language-environment "UTF-8")
- '(default-input-method "rfc1345")
- '(delete-selection-mode t nil (delsel))
- '(diff-mode-hook (quote (view-mode)))
- '(dired-copy-preserve-time t)
- '(dired-keep-marker-copy 67)
- '(display-time-mode t)
- '(ecb-options-version "2.40")
- '(european-calendar-style t)
- '(f90-do-indent 2)
- '(f90-if-indent 2)
- '(f90-type-indent 2)
- '(focus-follows-mouse t)
- '(fortran-line-length 131)
- '(fortran-structure-indent 2)
- '(fortran-tab-mode-default nil t)
- '(gdb-find-source-frame t)
- '(gdb-show-main t)
- '(gdb-use-colon-colon-notation t)
- '(global-auto-revert-ignore-buffer nil t)
- '(global-font-lock-mode t nil (font-lock))
- '(grep-find-command "find -L . -type f -print0 | xargs -0 -e grep -nG -e ")
- '(ibuffer-always-compile-formats nil)
- '(imaxima-fnt-size "Large")
- '(imaxima-pt-size 12)
- '(indent-tabs-mode nil)
- '(iswitchb-mode t)
- '(kill-whole-line t)
- '(latex-run-command "pdflatex")
- '(lazy-highlight-cleanup nil)
- '(mark-diary-entries-in-calendar t)
- '(minibuffer-message-timeout 2 t)
- '(mouse-buffer-menu-maxlen 30)
- '(mouse-buffer-menu-mode-mult 10)
- '(mouse-wheel-follow-mouse t)
- '(mouse-wheel-mode t nil (mwheel))
- '(mouse-wheel-progressive-speed nil)
- '(msb-max-menu-items 30)
- '(next-line-add-newlines nil)
- '(org-clock-history-length 10)
- '(org-clock-into-drawer "LOGBOOK")
- '(org-clock-modeline-total (quote today))
- '(org-clock-persist (quote today))
- '(org-enforce-todo-checkbox-dependencies t)
- '(org-enforce-todo-dependencies t)
- '(org-link-frame-setup (quote ((vm . vm-visit-folder-other-frame) (gnus . gnus-other-frame) (file . find-file))))
- '(org-log-done nil)
- '(org-log-note-clock-out nil)
- '(org-return-follows-link t)
- '(py-block-comment-prefix "# ")
- '(python-mode-hook (quote (imenu-add-menubar-index)) t)
- '(require-final-newline t)
- '(safe-local-variable-values (quote ((eval replace-string "||" "|" 1 -100) (eval setq p2 (point)) (eval skip-chars-forward "Local variables") (eval add-hook (quote write-file-hooks) (quote time-stamp)))))
- '(save-place t nil (saveplace))
- '(save-place-limit 50)
- '(send-mail-function (quote sendmail-send-it))
- '(shell-command-default-error-buffer nil t)
- '(show-paren-mode t nil (paren))
- '(show-paren-style (quote expression))
- '(show-trailing-whitespace nil)
- '(tab-width 4)
- '(tags-add-tables (quote ask-user))
- '(text-mode-hook (quote (turn-on-auto-fill text-mode-hook-identify)))
- '(tool-bar-mode nil)
- '(trace-buffer "*trace-output*")
- '(track-mouse nil t)
- '(uniquify-buffer-name-style (quote forward) nil (uniquify))
- '(vc-make-backup-files t)
- '(vc-svn-deff-switches "-x-bw")
- '(whitespace-style (quote (tabs trailing lines-tail space-before-tab empty space-after-tab tab-mark))))
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "Black" :foreground "White" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "unknown" :family "Monospace"))))
- '(scroll-bar ((t (:background "grey" :foreground "#000000"))))
- '(show-paren-match ((t (:background "grey20"))))
- '(trailing-whitespace ((((class color) (background dark)) (:background "orange")))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(require 'package)
+(add-to-list 'package-archives (cons "melpa" "https://melpa.org/packages/") t)
 
+(package-initialize)
+
+(defvar user-directory "~/.emacs.d")
+
+(defvar my-site-lisp-path (expand-file-name "site-lisp" user-directory)
+  "Path to third-party lisp files")
+
+(defvar my-lisp-path (expand-file-name "my-lisp" user-directory)
+  "Path to my lisp files")
+
+(add-to-list 'load-path my-site-lisp-path)
+(add-to-list 'load-path my-lisp-path)
+
+(setq custom-file (expand-file-name "custom.el" user-directory))
+(load custom-file)
 
 ;; Manual custom settings
 (display-time)
-(setq inhibit-startup-message t)
-(setq scroll-conservatively 1)
 (fset 'yes-or-no-p 'y-or-n-p)
-(tool-bar-mode -1)
-(setq view-read-only t)
 (set-face-underline 'font-lock-warning-face "red")
-(setq visible-bell t)
-(setq bookmark-default-file "~/.bookmarks" bookmark-save-flag 1)
-(setq vc-make-backup-files t)
+(setq bookmark-default-file (expand-file-name "bookmarks" user-directory)
+      bookmark-save-flag 1)
 (add-hook 'write-file-hooks 'time-stamp)
-;(add-to-list 'default-frame-alist '(height . 54))
-;(add-to-list 'default-frame-alist '(width . 156))
-(set 'usr:my-frame-alist' ((background-color . "Black")
-                           (foreground-color . "White")
-                           (cursor-color . "red")
-                           (width . 120)
-                           (height . 42)
-                           (vertical-scroll-bars . nil)
-                           (horizontal-scroll-bars . nil)))
-(set 'initial-frame-alist (append initial-frame-alist usr:my-frame-alist))
-(set 'default-frame-alist (append usr:my-frame-alist default-frame-alist))
 (setq default-indentation 4)
 ;"Default indentation used in `highlight-indendation'.")
 (defvar buffers-not-to-kill-list '("*scratch*" "*Messages*" "diary" "todo.org")
   "Buffers that will not be closed by `close-all-other-buffers'")
 ; (set-face-attribute 'default nil :height 150)
-(defvar my-lisp-path (expand-file-name "~/emacs_lisp")
-  "Default path for custom lisp files.")
 (defvar my-python-path (expand-file-name "~/python")
   "Default path for Python scripts.")
-(let ((new-lisp-path my-lisp-path))
-  (if (file-exists-p new-lisp-path)
-      (setq load-path (cons new-lisp-path load-path))
-    (setq new-lisp-path "/home/josh/emacs_lisp")
-    (if (file-exists-p new-lisp-path)
-        (setq load-path (const new-lisp-path load-path)))))
 (setq tags-file-name (expand-file-name "~/TAGS"))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -480,9 +377,7 @@ The original `find-file' is re-implemented as `orig-find-file'."
   (beginning-of-line)
   (let ((beg(point)))
     (next-line)
-    (comment-region beg (point))
-    )
-  )
+    (comment-region beg (point))))
 
 (defun jpm-comment ()
   (interactive)
@@ -490,11 +385,8 @@ The original `find-file' is re-implemented as `orig-find-file'."
     (beginning-of-line)
     (let ((beg(point)))
       (next-line)
-      (uncomment-region beg (point))
-      )
-    (goto-char start)
-    )
-  )
+      (uncomment-region beg (point)))
+    (goto-char start)))
 
 (setq output-my-py-help-in-shell nil) ; nil: my-py-help-at-point will put output into its own window.
                                         ;   t: my-py-help-at-point will put output into *PYTHON* shell if it's running.
@@ -542,8 +434,7 @@ The original `find-file' is re-implemented as `orig-find-file'."
              (imenu-add-menubar-index)
              (highlight-indendation)
              (my-highlighting)
-             (font-lock-add-keywords nil '(("\\b\\(false\\|true\\)\\b" 0 font-lock-warning-face)))
-             ))
+             (font-lock-add-keywords nil '(("\\b\\(false\\|true\\)\\b" 0 font-lock-warning-face)))))
 (add-hook 'py-shell-mode-hook 'ansi-color-for-comint-mode-on)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -582,8 +473,7 @@ The original `find-file' is re-implemented as `orig-find-file'."
              (define-key view-mode-map [?N]
                'isearch-repeat-backward)
              (define-key view-mode-map [?q]
-               'kill-buffer)
-             ))
+               'kill-buffer)))
 
 (defmacro do-not-exit-view-mode-unless-writable-advice (f)
   `(defadvice ,f (around do-not-exit-view-mode-unless-writable activate)
@@ -601,8 +491,7 @@ The original `find-file' is re-implemented as `orig-find-file'."
 (add-hook 'info-mode-hook
           '(lambda ()
              (local-set-key (kbd "j") 'View-scroll-line-forward)
-             (local-set-key (kbd "k") 'View-scroll-line-backward)
-             ))
+             (local-set-key (kbd "k") 'View-scroll-line-backward)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -615,8 +504,7 @@ The original `find-file' is re-implemented as `orig-find-file'."
              (define-key dired-mode-map (kbd "SPC") 'scroll-up)
              (define-key dired-mode-map [?/] 'isearch-forward)
              (define-key dired-mode-map [?U] 'dired-unmark-all-marks)
-             (define-key dired-mode-map [?l] 'dired-find-file)
-             ))
+             (define-key dired-mode-map [?l] 'dired-find-file)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -628,8 +516,7 @@ The original `find-file' is re-implemented as `orig-find-file'."
              (define-key tar-mode-map [?b] 'scroll-down)
              (define-key tar-mode-map (kbd "SPC") 'scroll-up)
              (define-key tar-mode-map [?/] 'isearch-forward)
-             (define-key tar-mode-map [?l] 'tar-extract)
-             ))
+             (define-key tar-mode-map [?l] 'tar-extract)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -721,8 +608,7 @@ Depends on paths listed in `switch-paths-to-check'. Inspired by `eassist-switch-
 (defun c-cleanup ()
   (interactive)
   (indent-region (point-min) (point-max))
-  (delete-trailing-whitespace)
-  )
+  (delete-trailing-whitespace))
 
 (defun command-line-c-cleanup (switch)
   (let ((base-dir default-directory))
@@ -733,8 +619,7 @@ Depends on paths listed in `switch-paths-to-check'. Inspired by `eassist-switch-
         (c-cleanup)
         (save-buffer)
         ))
-    (save-buffers-kill-terminal)
-    ))
+    (save-buffers-kill-terminal)))
 
 (add-to-list 'command-switch-alist '("cclean" . command-line-c-cleanup))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -756,8 +641,7 @@ Depends on paths listed in `switch-paths-to-check'. Inspired by `eassist-switch-
 
 (add-hook 'latex-mode-hook
           '(lambda ()
-             (local-set-key (kbd "C-c C-s") 'isearch-forward-at-point)
-             ))
+             (local-set-key (kbd "C-c C-s") 'isearch-forward-at-point)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -792,3 +676,18 @@ Optional arg REVISION is a revision to annotate from."
   (setq default-directory "~/")
   (setq command-line-default-directory "~/"))
 
+(defun my-insert-date ()
+  "Insert a date. The formatting depends on the current mode."
+  (interactive)
+  (let ((date-format (case major-mode
+                       ('org-mode "<%Y-%m-%d %a>")
+                       (t "%Y-%m-%d"))))
+    (insert (format-time-string date-format))))
+
+;; 2016-01-28
+
+(add-hook 'org-mode-hook
+          '(lambda ()
+             (local-set-key (kbd "C-c i d") 'my-insert-date)))
+
+(require 'jpm-helm)
