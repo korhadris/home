@@ -1,0 +1,9 @@
+hardstatus alwayslastline
+hardstatus string '%{= kG}[ %{G}%H ]%{g}[%=%{=kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{g}%?%+Lw%?%= %{g}][%{B}%Y-%m-%d %{W}%c%{g}]'
+startup_message off
+defscrollback 30000
+autodetach on
+
+escape ^bb
+screen -t shell0 0
+screen -t shell1 1
