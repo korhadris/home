@@ -1,3 +1,5 @@
+# For my limited brain (left alt)
+set $alt Mod1
 # mod (super)
 set $mod Mod4
 
@@ -35,7 +37,9 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # lock
-bindsym $mod+Shift+x exec i3lock --color 475263
+set $lockprog xscreensaver-command -lock
+bindsym $mod+Control+l exec --no-startup-id $lockprog
+bindsym $alt+Control+l exec --no-startup-id $lockprog
 
 # split in horizontal orientation
 bindsym $mod+b split h
@@ -52,7 +56,7 @@ bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+Control+space floating toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -60,28 +64,46 @@ bindsym $mod+space focus mode_toggle
 # focus the parent container
 bindsym $mod+a focus parent
 
+bindsym $mod+Tab scratchpad show
+bindsym $mod+Shift+Tab move scratchpad
+
 set $workspace1 "1 "
 set $workspace2 "2 "
-set $workspace3 "3 "
-set $workspace4 "4 "
-set $workspace5 "5 "
+set $workspace3 "3 "
+set $workspace4 "4 "
+set $workspace5 "5 "
 set $workspace6 "6 "
-set $workspace7 "7 "
-set $workspace8 "8 "
-set $workspace9 "9 "
-set $workspace10 "10 "
+set $workspace7 "7 "
+set $workspace8 "8 "
+set $workspace9 "9 "
+set $workspace10 "10 "
 
-# move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $workspace1
-bindsym $mod+Shift+2 move container to workspace $workspace2
-bindsym $mod+Shift+3 move container to workspace $workspace3
-bindsym $mod+Shift+4 move container to workspace $workspace4
-bindsym $mod+Shift+5 move container to workspace $workspace5
-bindsym $mod+Shift+6 move container to workspace $workspace6
-bindsym $mod+Shift+7 move container to workspace $workspace7
-bindsym $mod+Shift+8 move container to workspace $workspace8
-bindsym $mod+Shift+9 move container to workspace $workspace9
-bindsym $mod+Shift+0 move container to workspace $workspace10
+## Workspace presets
+set $left DVI-I-2
+set $right DVI-I-1
+workspace $workspace1  output $left
+workspace $workspace2  output $left
+workspace $workspace3  output $left
+workspace $workspace4  output $left
+workspace $workspace5  output $left
+workspace $workspace6  output $left
+
+workspace $workspace7  output $right
+workspace $workspace8  output $right
+workspace $workspace9  output $right
+workspace $workspace10 output $right
+
+# move focused container to workspace (and then move to workspace)
+bindsym $mod+Shift+1 move container to workspace $workspace1; workspace $workspace1
+bindsym $mod+Shift+2 move container to workspace $workspace2; workspace $workspace2
+bindsym $mod+Shift+3 move container to workspace $workspace3; workspace $workspace3
+bindsym $mod+Shift+4 move container to workspace $workspace4; workspace $workspace4
+bindsym $mod+Shift+5 move container to workspace $workspace5; workspace $workspace5
+bindsym $mod+Shift+6 move container to workspace $workspace6; workspace $workspace6
+bindsym $mod+Shift+7 move container to workspace $workspace7; workspace $workspace7
+bindsym $mod+Shift+8 move container to workspace $workspace8; workspace $workspace8
+bindsym $mod+Shift+9 move container to workspace $workspace9; workspace $workspace9
+bindsym $mod+Shift+0 move container to workspace $workspace10; workspace $workspace10
 
 # switch to workspace
 bindsym $mod+1 workspace $workspace1
@@ -96,15 +118,15 @@ bindsym $mod+9 workspace $workspace9
 bindsym $mod+0 workspace $workspace10
 
 # reload the configuration file
-bindsym $mod+Shift+c reload
+bindsym $mod+Control+c reload
 
 # restart i3 inplace
-bindsym $mod+Shift+r restart
+bindsym $mod+Control+r restart
 
 # exit i3
 #bindsym $mod+Shift+e exec /home/booker/.i3/scripts/exit_menu
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
-
+bindsym $mod+Control+e exec "i3-nagbar -t warning -m 'Exit i3?' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym Shift+Control+$alt+Delete exec i3-msg exit
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -141,59 +163,64 @@ client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color      
 
 # bar
 bar {
+    font pango:DejaVu Sans Mono 12
     status_command i3status
+    tray_output primary
 }
 
 
 # sticky window
-bindsym $mod+Shift+s sticky toggle
+bindsym $mod+Control+s sticky toggle
 
 for_window [class="[.]*"] floating enable
 for_window [class="konsole"] floating disable
+for_window [class="Konsole"] floating disable
 for_window [class="Emacs"] floating disable
 for_window [class="Chromium-browser"] floating disable
+for_window [class="Google-chrome"] floating disable
+for_window [class="Firefox"] floating disable
 
 # default workspaces
-assign [class="Chromium-browser"] $workspace3
-
-# workspace default monitors
-# workspace $workspace1 output DVI-I-2
-# workspace $workspace2 output DVI-I-2
-# workspace $workspace3 output DVI-I-2
-# workspace $workspace4 output DVI-I-2
-# workspace $workspace5 output DVI-I-2
-# workspace $workspace6 output DVI-I-2
-# workspace $workspace9 output DVI-I-2
-# workspace $workspace10 output DVI-I-2
+assign [class="Chromium-browser"] $workspace7
+assign [class="Google-chrome"] $workspace7
+assign [class="Firefox"] $workspace3
 
 # key-bindings
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 2 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 2 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 2 toggle # mute sound
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q set Master 1dB+ unmute
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q set Master 1dB- unmute
+bindsym XF86AudioMute exec --no-startup-id amixer -q set Master toggle
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPause exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec konsole
+bindsym $mod+Shift+Return workspace $workspace2; exec konsole
 
 # start awesomeness
 bindsym $mod+z exec emacs
+bindsym $mod+Shift+z workspace $workspace1; exec emacs
 
 # start chromium
-bindsym $mod+c exec chromium-browser
-# bindsym $mod+Shift+f exec firefox
+bindsym $mod+c exec google-chrome
+bindsym $mod+x exec firefox
 
-bindsym $mod+Shift+q kill
+bindsym $mod+Control+q kill
 
-bindsym Print exec screenshot
+bindsym Print exec ksnapshot
 
 bindsym $mod+d exec dmenu_run -i -fn "DejaVu Sans-16"
 # bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 800 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "DejaVu Sans Mono 18"
 
 # startup
-# exec_always --no-startup-id xrandr --output HDMI-0 --off --output DVI-I-1 --off --output DVI-I-0 --off --output DVI-I-3 --mode 1920x1080 --pos 0x0 --rotate normal --output DVI-I-2 --mode 1920x1080 --pos 1920x0 --rotate normal
+# exec_always --no-startup-id xrandr --output DVI-I-1 --mode 1280x1024 --pos 1920x0 --rotate normal --output DVI-I-2 --mode 1920x1080 --pos 0x0 --rotate normal --primary
+exec_always --no-startup-id xrandr --output DVI-I-2 --primary
+exec_always --no-startup-id setleds +num
+exec --no-startup-id kmix
+exec firefox
+exec google-chrome
+exec --no-startup-id i3-msg "workspace $workspace3; workspace $workspace7"
 
 # Keys
 exec_always xmodmap ~/.Xmodmap

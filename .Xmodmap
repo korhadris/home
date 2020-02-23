@@ -1,4 +1,5 @@
 keycode 66 = Control_L Control_L
+keycode 135 = Super_R Super_R
 clear Lock
 clear Control
 add Control = Control_L Control_R
