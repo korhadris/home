@@ -6,6 +6,8 @@ packages=(
   git
   htop
   imagemagick
+  man-db
+  man-pages
   manpages
   screen
   wget
@@ -15,7 +17,7 @@ packages=(
 SUDO="sudo"
 [[ $EUID -eq 0 ]] && SUDO=""
 
-if which apt >& /dev/null; then
+if command -v apt >& /dev/null; then
   echo "Using apt"
   $SUDO apt update
   pkgs_to_install=""
@@ -28,6 +30,16 @@ if which apt >& /dev/null; then
   done
   echo "Installing $pkgs_to_install"
   $SUDO apt install -y $pkgs_to_install
-elif which yum >& /dev/null; then
+elif command -v yum >& /dev/null; then
   echo "Using yum"
+  pkgs_to_install=""
+  for pkg in ${packages[@]}; do
+    if yum info $pkg >& /dev/null; then
+      pkgs_to_install="$pkgs_to_install $pkg"
+    else
+      echo "Unable to find $pkg, skipping..."
+    fi
+  done
+  echo "Installing $pkgs_to_install"
+  $SUDO yum install -y $pkgs_to_install
 fi
