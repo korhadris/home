@@ -1,4 +1,4 @@
-; Time-stamp: <2019-03-23 08:44:19 josh>
+; Time-stamp: <2020-06-30 19:35:34 josh>
 
 ;; Custom vars from emacs configure
 (custom-set-variables
@@ -64,7 +64,6 @@
  '(ido-default-buffer-method (quote selected-window))
  '(ido-default-file-method (quote selected-window))
  '(ido-enable-flex-matching t)
- '(ido-everywhere t)
  '(ido-mode (quote both) nil (ido))
  '(ido-save-directory-list-file "~/.emacs.d/ido.last")
  '(imaxima-fnt-size "Large")
