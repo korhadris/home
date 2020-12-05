@@ -1,13 +1,10 @@
-; Time-stamp: <2019-03-23 08:43:14 josh>
+; Time-stamp: <2020-12-05 00:30:29 korhadris>
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
-(require 'package)
-(add-to-list 'package-archives (cons "melpa" "https://melpa.org/packages/") t)
-
-(package-initialize)
+; (require 'package)
 
 (defvar user-directory "~/.emacs.d")
 
