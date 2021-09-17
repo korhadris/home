@@ -48,6 +48,9 @@ alias ll='ls -AlFh'
 alias lt='ls -AlFhtr'
 alias la='ls -A'
 alias l='ls -CF'
+function ltt() {
+  ls -AlFhtr $* | tail
+}
 
 alias df='df -h'
 alias rm='rm -i'
