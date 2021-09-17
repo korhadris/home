@@ -8,6 +8,8 @@ if [ -z "$PS1" ]; then
   exit
 fi
 
+export PATH=${HOME}/.local/bin:$PATH
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -51,6 +53,16 @@ alias df='df -h'
 alias rm='rm -i'
 alias e='emacs'
 alias ew='emacs -nw'
+
+function cdf {
+  local dir=$(find -type d -name $1 | head -n1)
+  if [ -n "$dir" ] ; then
+    cd $dir
+  else
+    echo "Unable to find $1"
+    return 1
+  fi
+}
 
 # enable programmable completion features
 if ! shopt -oq posix; then

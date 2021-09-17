@@ -1,4 +1,4 @@
-; Time-stamp: <2020-06-30 19:35:34 josh>
+; Time-stamp: <2020-11-05 14:37:04 josh>
 
 ;; Custom vars from emacs configure
 (custom-set-variables
@@ -21,7 +21,7 @@
  '(custom-enabled-themes (quote (misterioso)))
  '(default-frame-alist
     (quote
-     ((background-color . "Black")
+     ((background-color . "color-232")
       (foreground-color . "White")
       (cursor-color . "red")
       (width . 120)
@@ -73,7 +73,7 @@
  '(inhibit-startup-screen t)
  '(initial-frame-alist
    (quote
-    ((background-color . "Black")
+    ((background-color . "color-232")
      (foreground-color . "White")
      (cursor-color . "red")
      (width . 120)
@@ -109,7 +109,6 @@
  '(org-log-done nil)
  '(org-log-note-clock-out nil)
  '(org-return-follows-link t)
- '(package-selected-packages (quote (helm async helm-projectile which-key markdown-mode use-package)))
  '(org-time-clocksum-use-fractional t)
  '(org-todo-keyword-faces
    (quote
@@ -117,6 +116,9 @@
      ("COMPLETED" . "green")
      ("REPORTED" . "blue"))))
  '(package-enable-at-startup nil)
+ '(package-selected-packages
+   (quote
+    (scribble-mode smartparens rainbow-delimiters rainbow-mode racket-mode helm async helm-projectile which-key markdown-mode use-package)))
  '(projectile-completion-system (quote helm))
  '(ps-bottom-margin 36)
  '(ps-font-size (quote (7 . 9)))
@@ -177,8 +179,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "Black" :foreground "White" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "unknown" :family "Monospace"))))
+ '(default ((t (:inherit nil :stipple nil :background "color-232" :foreground "White" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "unknown" :family "Monospace"))))
  '(fringe ((t (:background "gray10"))))
+ '(racket-selfeval-face ((t (:foreground "brightgreen"))))
  '(scroll-bar ((t (:background "grey" :foreground "#000000"))))
  '(show-paren-match ((t (:background "grey20"))))
  '(trailing-whitespace ((((class color) (background dark)) (:background "orange")))))

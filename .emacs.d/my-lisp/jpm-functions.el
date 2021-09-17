@@ -1,4 +1,4 @@
-;;; Time-stamp: <2018-07-23 17:20:11 jpm>
+;;; Time-stamp: <2020-08-09 04:20:49 josh>
 
 (require 'jpm-base)
 
@@ -299,6 +299,31 @@ e.g. 'This line     has extra space.' -> 'This line ahs extra space.'"
                        ('org-mode "<%Y-%m-%d %a>")
                        (t "%Y-%m-%d"))))
     (insert (format-time-string date-format))))
+
+(defvar my-separator "_"
+  "String to be used as a separator in variable names by `my-separator-or-tab'")
+
+(defvar my-tab-command 'indent-for-tab-command
+  "Command to be ran when using the TAB key when running `my-separator-or-tab'")
+
+;;;###autoload
+(defun my-bind-tab-to-separator (separator)
+  "Bind the TAB key to `my-separator-or-tab', set `my-separator' and `my-tab-command'"
+  (set (make-local-variable 'my-separator) separator)
+  (let ((current-tab-command (key-binding (kbd "TAB"))))
+    (unless (equal current-tab-command 'my-separator-or-tab)
+      (fset (make-local-variable 'my-tab-command) current-tab-command)))
+  (local-set-key (kbd "TAB") 'my-separator-or-tab))
+
+(defun my-separator-or-tab ()
+  "Insert `my-separator' if the previous command was an insertion,
+otherwise run `my-tab-command'. This command should be bound using
+`my-bind-tab-to-separator'"
+  (interactive)
+  (if (and (eq last-command 'self-insert-command)
+           (not (eq ?  (char-before))))
+      (insert my-separator)
+    (my-tab-command)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

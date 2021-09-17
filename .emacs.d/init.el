@@ -1,10 +1,17 @@
-; Time-stamp: <2020-12-05 00:30:29 korhadris>
+; Time-stamp: <2020-12-05 07:45:21 josh>
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 ; (require 'package)
+
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
 
 (defvar user-directory "~/.emacs.d")
 

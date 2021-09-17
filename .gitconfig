@@ -9,3 +9,5 @@
 	ff = only
 [color]
 	ui = true
+[core]
+	excludesFile = ~/.gitignore-global

@@ -99,8 +99,8 @@ Toggles idle-timer call to `my-get-function-name-short'
 
 ;;;***
 
-;;;### (autoloads nil "jpm-functions" "jpm-functions.el" (23267 38527
-;;;;;;  898502 818000))
+;;;### (autoloads nil "jpm-functions" "jpm-functions.el" (24355 38597
+;;;;;;  210303 172000))
 ;;; Generated autoloads from jpm-functions.el
 
 (autoload 'my-highlighting "jpm-functions" "\
@@ -201,6 +201,11 @@ Replaces multiple spaces within a line with a single space.
 e.g. 'This line     has extra space.' -> 'This line ahs extra space.'
 
 \(fn)" t nil)
+
+(autoload 'my-bind-tab-to-separator "jpm-functions" "\
+Bind the TAB key to `my-separator-or-tab', set `my-separator' and `my-tab-command'
+
+\(fn SEPARATOR)" nil nil)
 
 ;;;***
 

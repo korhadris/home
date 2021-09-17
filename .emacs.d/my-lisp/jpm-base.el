@@ -1,4 +1,4 @@
-;;; Time-stamp: <2018-05-03 11:54:38 jpm>
+;;; Time-stamp: <2020-08-27 04:00:06 josh>
 
 ;; File: jpm-base.el
 ;; Author: JPM
@@ -32,6 +32,13 @@ but the idea is that these characters are unlikely to be in a file name."
 command."
   (interactive)
   (kill-line))
+
+(defun lambda-key (keymap key def)
+  "Wrap `define-key' to provide documentation."
+  (set 'sym (make-symbol (documentation def)))
+  (fset sym def)
+  (define-key keymap key sym))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;; Custom parameters
@@ -203,6 +210,32 @@ command."
 (add-hook 'latex-mode-hook
           '(lambda ()
              (local-set-key (kbd "C-c C-s") 'isearch-forward-at-point)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; Racket mode settings
+(add-hook 'racket-mode-hook
+          '(lambda ()
+             (local-set-key (kbd "`") (define-prefix-command 'my-racket-map))
+             (lambda-key my-racket-map (kbd "`")
+               (lambda () "Insert `" (interactive) (insert "`")))
+             (lambda-key my-racket-map (kbd "[")
+               (lambda () "Insert []" (interactive) (insert "[]") (forward-char -1)))
+             (define-key my-racket-map (kbd "5")
+               'racket-run-and-switch-to-repl)
+             (define-key my-racket-map (kbd "/")
+               'undo)
+             (define-key my-racket-map (kbd "<up>")
+               'sp-backward-up-sexp)
+             (define-key my-racket-map (kbd "<down>")
+               'sp-down-sexp)
+             (define-key my-racket-map (kbd "<left>")
+               'sp-backward-symbol)
+             (define-key my-racket-map (kbd "<right>")
+               'sp-forward-symbol)
+             (my-bind-tab-to-separator "-")
+             (racket-smart-open-bracket-mode)
+             (rainbow-delimiters-mode)
+             (smartparens-mode)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;; OpenOffice files
