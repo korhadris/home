@@ -8,7 +8,7 @@ if [ -z "$PS1" ]; then
   exit
 fi
 
-export PATH=${HOME}/.local/bin:$PATH
+export PATH=.:$HOME/install/bin:$HOME/.local/bin:$PATH
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -53,6 +53,7 @@ alias df='df -h'
 alias rm='rm -i'
 alias e='emacs'
 alias ew='emacs -nw'
+alias sd='screen -dR -S dev'
 
 function cdf {
   local dir=$(find -type d -name $1 | head -n1)

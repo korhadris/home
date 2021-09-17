@@ -1,4 +1,4 @@
-; Time-stamp: <2020-11-05 14:37:04 josh>
+; Time-stamp: <2021-09-17 16:33:06 josh>
 
 ;; Custom vars from emacs configure
 (custom-set-variables
@@ -165,6 +165,7 @@
  '(trace-buffer "*trace-output*")
  '(track-mouse nil t)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
+ '(vc-follow-symlinks t)
  '(vc-make-backup-files t)
  '(vc-svn-diff-switches "-x-bw")
  '(view-read-only t)
