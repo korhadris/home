@@ -1,4 +1,4 @@
-;;; Time-stamp: <2020-12-05 00:27:57 korhadris>
+;;; Time-stamp: <2021-10-16 05:29:44 opc>
 
 ;;; From JPH
 (require 'jpm-base)
@@ -13,7 +13,7 @@
   (require 'package)
   ;; (setq package-enable-at-startup nil)
   ;; (setq package-archives `(("local-elpa" . ,(expand-file-name "elpa" user-path))))
-  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+  ;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
   (package-initialize nil)

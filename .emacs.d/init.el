@@ -1,4 +1,4 @@
-; Time-stamp: <2020-12-05 07:45:21 josh>
+; Time-stamp: <2021-10-16 05:15:03 opc>
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
@@ -11,7 +11,7 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
-(package-initialize)
+;; (package-initialize)
 
 (defvar user-directory "~/.emacs.d")
 
